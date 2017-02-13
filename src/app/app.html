@@ -1,0 +1,103 @@
+<nav class="navbar navbar-default navbar-static-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">
+                Gowombat task manager
+            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-right">
+            <button type="button" (click)="hideCompleted()" class="btn btn-info navbar-btn"><span class="hideShow">Hide</span><span class="hideShow" style="display: none">Show</span> completed</button>
+            <button type="button" data-toggle="modal" data-target="#createNew" class="btn btn-warning navbar-btn">Add new task</button>
+        </div>
+
+    </div>
+</nav>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6 col-md-4" *ngFor="let item of list">
+            <div class="thumbnail">
+                <div class="caption">
+                    <!--alert-success,alert-danger -->
+                    <div class="alert alert-info" [ngClass]="{'alert-danger':!item.status}" role="alert">
+                        <input title="" type="text" #name value="{{item.name}}" readonly="readonly">
+                    </div>
+                    <p>
+                        <textarea title="" #description readonly="readonly">{{item.description}}</textarea>
+                    </p>
+                    <p class="buttonLine">
+                        <a href="#" *ngIf="!item.status" class="btn btn-primary done" (click)="changeStatus(item.id)" role="button">Done</a>
+                        <a href="#" *ngIf="!item.status" class="btn btn-default edit" #data (click)="edit(data)" role="button">Edit</a>
+                        <a href="#"  class="btn btn-default senddata" #send (click)="sendData(send, item.id, name.value, description.value)" role="button" style="display: none" >Okay</a>
+                        <a href="#" class="btn btn-info" *ngIf="item.logs.length" (click)="modalTaskShow(item.logs)" role="button">show log</a>
+                        <a href="#" class="btn btn-danger" (click)="deleteTask(item.id)" role="button"><span class="glyphicon glyphicon-remove"></span></a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="logs" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">task log</h4>
+            </div>
+            <div class="modal-body">
+                <ul>
+                    <li *ngFor="let task of chosenLogs" class="list-group-item">{{task.user.name}}: {{task.action}}</li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="error" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Error!</h4>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-danger" role="alert">
+                    {{errorText}}
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="createNew" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Create new task</h4>
+            </div>
+            <div class="modal-body">
+                <div class="thumbnail">
+                    <div class="caption">
+                        <!--alert-success,alert-danger -->
+                        <div class="alert alert-info" role="alert">
+                            <input title="" placeholder="add task title" type="text" #name>
+                        </div>
+                        <p>
+                            <textarea title="" placeholder="add task description" #description ></textarea>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-success" #addNew data-dismiss="modal" (click)="addNewTask(name.value, description.value)" role="button">Add task to list</a>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
