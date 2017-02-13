@@ -8,6 +8,7 @@ install packages
     $ npm install
 
 build packages
+
     $ npm run build
 
 ### Docker:
